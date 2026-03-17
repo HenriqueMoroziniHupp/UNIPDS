@@ -127,6 +127,12 @@ export class AIService {
                     }]
                 },
             ],
+            monitor(m) {
+                m.addEventListener('downloadprogress', (e) => {
+                    const percent = ((e.loaded / e.total) * 100).toFixed(0);
+                    console.log(`Language Model downloaded ${percent}%`);
+                });
+            }
         });
 
         // Build content array with text and optional file

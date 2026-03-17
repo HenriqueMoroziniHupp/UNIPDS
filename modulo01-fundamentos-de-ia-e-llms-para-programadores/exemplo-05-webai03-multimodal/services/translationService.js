@@ -5,6 +5,10 @@ export class TranslationService {
     }
 
     async initialize() {
+        if (this.translator) {
+            return true;
+        }
+
         try {
             this.translator = await Translator.create({
                 sourceLanguage: 'en',
@@ -23,6 +27,10 @@ export class TranslationService {
 
             return true;
         } catch (error) {
+            if (error.name === 'NotAllowedError' || error.message.includes('user gesture')) {
+                // Ignore NotAllowedError, as we'll retry with user gesture later
+                throw error;
+            }
             console.error('Error initializing translation:', error);
             throw new Error('⚠️ Erro ao inicializar APIs de tradução.');
         }

@@ -58,7 +58,12 @@ export class FormController {
         this.view.setOutput('Processing your question...');
 
         try {
-            debugger
+            // Start translation initialization in background to not block AI generation
+            // This ensures AI session creation (which might need download) gets the user gesture immediately
+            const translationInitPromise = !this.translationService.translator 
+                ? this.translationService.initialize().catch(e => console.log('Translation background init failed/deferred:', e))
+                : Promise.resolve();
+
             const aiResponseChunks = await this.aiService.createSession(
                 question,
                 temperature,
@@ -80,6 +85,11 @@ export class FormController {
 
             // Translate the full response to Portuguese
             if (fullResponse && !this.aiService.isAborted()) {
+                // Ensure translation service is ready
+                if (!this.translationService.translator) {
+                    await translationInitPromise;
+                }
+
                 this.view.setOutput('Traduzindo resposta...');
                 const translatedResponse = await this.translationService.translateToPortuguese(fullResponse);
                 this.view.setOutput(translatedResponse);

@@ -23,9 +23,13 @@ import { FormController } from './controllers/formController.js';
     try {
         await translationService.initialize();
     } catch (error) {
-        console.error('Error initializing translation:', error);
-        view.showError([error.message]);
-        return;
+        if (error.name === 'NotAllowedError' || error.message.includes('user gesture')) {
+            console.log('Translation initialization deferred to user gesture.');
+        } else {
+            console.error('Error initializing translation:', error);
+            view.showError([error.message]);
+            return;
+        }
     }
 
     // Get and initialize AI parameters
