@@ -24,7 +24,9 @@ export const config: ModelConfig = {
     // 'minimax/minimax-m2.5:free'
     // 'inclusionai/ling-2.6-1t:free'
     // 'inclusionai/ling-2.6-1t:free'
-    'deepseek/deepseek-v4-flash'
+    // 'deepseek/deepseek-v4-flash'
+    'google/gemma-4-31b-it'
+    // 'qwen/qwen3.5-9b'
   ],
   provider: {
     sort: {
