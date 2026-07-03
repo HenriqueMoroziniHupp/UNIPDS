@@ -3,7 +3,8 @@ export const config = {
   httpReferer: '',
   xTitle: 'IA Devs - Sales Analytics Reporter',
   models: [
-    'arcee-ai/trinity-large-preview:free',
+    'deepseek/deepseek-v4-flash',
+    // 'google/gemma-4-26b-a4b-it'
   ],
   provider: {
     sort: {
